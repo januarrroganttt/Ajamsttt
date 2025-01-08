@@ -1,0 +1,87 @@
+-- Membuat tabel pengguna
+CREATE TABLE pengguna (
+    id_pengguna INT AUTO_INCREMENT PRIMARY KEY,
+    nama_pengguna VARCHAR(100) NOT NULL,
+    email_pengguna VARCHAR(100) NOT NULL UNIQUE,
+    kata_sandi VARCHAR(255) NOT NULL
+);
+
+-- Membuat tabel bantuan
+CREATE TABLE bantuan (
+    id_bantuan INT AUTO_INCREMENT PRIMARY KEY,
+    nama_bantuan VARCHAR(100) NOT NULL,
+    keterangan TEXT
+);
+
+-- Membuat tabel penyumbang
+CREATE TABLE penyumbang (
+    id_penyumbang INT AUTO_INCREMENT PRIMARY KEY,
+    nama_penyumbang VARCHAR(100) NOT NULL,
+    email_penyumbang VARCHAR(100) NOT NULL UNIQUE,
+    nomor_hp VARCHAR(15) UNIQUE
+);
+
+-- Membuat tabel penerima_manfaat
+CREATE TABLE penerima_manfaat (
+    id_penerima_manfaat INT AUTO_INCREMENT PRIMARY KEY,
+    nama_penerima_manfaat VARCHAR(100) NOT NULL,
+    alamat_penerima TEXT,
+    nomor_hp VARCHAR(15) UNIQUE
+);
+
+-- Membuat tabel transaksi_donasi
+CREATE TABLE transaksi_donasi (
+    id_transaksi INT AUTO_INCREMENT PRIMARY KEY,
+    id_penyumbang INT NOT NULL,
+    id_penerima_manfaat INT NOT NULL,
+    jumlah_transaksi DECIMAL(10, 2) NOT NULL,
+    tanggal_transaksi DATE NOT NULL,
+    FOREIGN KEY (id_penyumbang) REFERENCES penyumbang(id_penyumbang) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_penerima_manfaat) REFERENCES penerima_manfaat(id_penerima_manfaat) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Membuat tabel kampanye_donasi
+CREATE TABLE kampanye_donasi (
+    id_kampanye INT AUTO_INCREMENT PRIMARY KEY,
+    nama_kampanye VARCHAR(100) NOT NULL,
+    keterangan_kampanye TEXT,
+    target_kampanye DECIMAL(10, 2) NOT NULL
+);
+
+-- Menambahkan data awal ke tabel pengguna
+INSERT INTO pengguna (nama_pengguna, email_pengguna, kata_sandi) VALUES
+('AdminA', 'adminA@example.com', 'kata123'),
+('AdminB', 'adminB@example.com', 'sandi456');
+
+-- Menambahkan data awal ke tabel bantuan
+INSERT INTO bantuan (nama_bantuan, keterangan) VALUES
+('Bantuan Pendidikan', 'Dukungan untuk pendidikan anak-anak'),
+('Bantuan Medis', 'Dukungan untuk biaya pengobatan');
+
+-- Menambahkan data awal ke tabel penyumbang
+INSERT INTO penyumbang (nama_penyumbang, email_penyumbang, nomor_hp) VALUES
+('Penyumbang1', 'penyumbang1@example.com', '081212345678'),
+('Penyumbang2', 'penyumbang2@example.com', '081212345679');
+
+-- Menambahkan data awal ke tabel penerima_manfaat
+INSERT INTO penerima_manfaat (nama_penerima_manfaat, alamat_penerima, nomor_hp) VALUES
+('Penerima1', 'Jl. Merdeka No.10', '081212345680'),
+('Penerima2', 'Jl. Proklamasi No.20', '081212345681');
+
+-- Menambahkan data awal ke tabel transaksi_donasi
+INSERT INTO transaksi_donasi (id_penyumbang, id_penerima_manfaat, jumlah_transaksi, tanggal_transaksi) VALUES
+(1, 1, 500000.00, '2025-01-01'),
+(2, 2, 300000.00, '2025-01-02');
+
+-- Menambahkan data awal ke tabel kampanye_donasi
+INSERT INTO kampanye_donasi (nama_kampanye, keterangan_kampanye, target_kampanye) VALUES
+('Kampanye Beasiswa', 'Program beasiswa untuk siswa berprestasi', 10000000.00),
+('Kampanye Bantuan Medis', 'Dukungan untuk pasien yang membutuhkan', 15000000.00);
+
+-- Menampilkan data dari tabel-tabel
+SELECT * FROM pengguna;
+SELECT * FROM bantuan;
+SELECT * FROM penyumbang;
+SELECT * FROM penerima_manfaat;
+SELECT * FROM transaksi_donasi;
+SELECT * FROM kampanye_donasi;
